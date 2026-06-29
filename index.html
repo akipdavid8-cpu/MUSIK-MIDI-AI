@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musik MIDI AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main class="app">
+    <header class="hero">
+      <h1>Musik MIDI AI</h1>
+      <p>Buat lirik, nada, preview, dan file MIDI sederhana secara offline.</p>
+    </header>
+
+    <section class="card">
+      <label for="theme">Tema Lagu</label>
+      <textarea id="theme" placeholder="Contoh: cinta yang hilang, semangat pagi, rindu kampung halaman..."></textarea>
+
+      <label for="genre">Genre</label>
+      <select id="genre">
+        <option value="slow-edm">Slow EDM</option>
+        <option value="pop-edm">Pop EDM</option>
+        <option value="koplo-edm">Koplo EDM</option>
+        <option value="rock-edm">Rock EDM</option>
+      </select>
+
+      <button id="generateBtn">Generate</button>
+    </section>
+
+    <section class="card output">
+      <h2>Lirik Lagu</h2>
+      <pre id="lyricsOutput">Belum ada lirik.</pre>
+    </section>
+
+    <section class="card output">
+      <h2>Nada Sederhana</h2>
+      <pre id="notesOutput">Belum ada nada.</pre>
+    </section>
+
+    <section class="actions">
+      <button id="playBtn" disabled>Play Preview</button>
+      <button id="downloadBtn" disabled>Download MIDI</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
