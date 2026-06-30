@@ -1,185 +1,167 @@
 /* style.css - Musik MIDI AI */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: system-ui, -apple-system, Roboto, sans-serif;
 }
 
 :root {
   --utama: #2563eb;
-  --gelap: #1e293b;
-  --abu: #64748b;
-  --abu-terang: #f1f5f9;
-  --sukses: #10b981;
+  --gelap: #1a1a1a;
+  --abu: #f5f5f5;
+  --abu-teks: #444;
+  --batas: #ddd;
+  --sukses: #16a34a;
   --peringatan: #f59e0b;
-  --bahaya: #ef4444;
+  --info: #8b5cf6;
   --putih: #ffffff;
-  --bayangan: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --bayangan-tebal: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 body {
-  background-color: var(--abu-terang);
+  background: var(--putih);
   color: var(--gelap);
   line-height: 1.6;
   padding: 20px 16px;
-}
-
-.app {
-  max-width: 850px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
-/* Bagian Header */
-.hero {
-  text-align: center;
-  margin-bottom: 32px;
-  padding: 24px;
-  background: linear-gradient(135deg, var(--utama), #4f46e5);
-  color: var(--putih);
-  border-radius: 12px;
-  box-shadow: var(--bayangan-tebal);
+/* Header */
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 16px 0 8px;
 }
 
-.hero h1 {
-  font-size: 28px;
-  margin-bottom: 8px;
+p.deskripsi {
+  font-size: 20px;
+  color: var(--abu-teks);
+  margin-bottom: 24px;
 }
 
-.hero p {
-  opacity: 0.92;
-  font-size: 16px;
-}
-
-/* Kartu Konten */
-.card {
-  background: var(--putih);
-  padding: 22px;
-  border-radius: 10px;
+/* Formulir Baris */
+.baris-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 20px;
-  box-shadow: var(--bayangan);
 }
 
-.card label {
-  display: block;
+label {
+  font-size: 18px;
   font-weight: 500;
-  margin-bottom: 8px;
-  color: var(--gelap);
+  white-space: nowrap;
 }
 
-.card textarea,
-.card input,
-.card select {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #cbd5e1;
+input,
+select,
+textarea {
+  font-size: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--batas);
   border-radius: 6px;
-  font-size: 15px;
-  background: #fdfdfe;
-  transition: border 0.2s ease;
+  background: #fafafa;
+  min-width: 160px;
+  flex: 1;
 }
 
-.card textarea:focus,
-.card input:focus,
-.card select:focus {
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border-color: var(--utama);
   box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
-.card textarea {
+textarea {
+  width: 100%;
+  min-height: 80px;
   resize: vertical;
-  min-height: 90px;
 }
 
-/* Area Output */
-.output h2,
-.output h3 {
-  font-size: 19px;
-  margin-bottom: 12px;
-  color: var(--utama);
-  border-bottom: 1px solid #eee;
-  padding-bottom: 6px;
-}
-
-.output pre {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 14px;
-  line-height: 1.7;
-  background: #f8fafc;
-  padding: 14px;
-  border-radius: 6px;
-  border: 1px solid #e2e8f0;
-  max-height: 320px;
-  overflow-y: auto;
-  color: #334155;
-}
-
-/* Tombol Aksi */
+/* Tombol Utama */
 button {
-  padding: 11px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 10px 16px;
   border: none;
   border-radius: 6px;
-  font-size: 15px;
-  font-weight: 500;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.1s ease;
-}
-
-button:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
-
-button:active:not(:disabled) {
-  transform: translateY(0);
+  transition: 0.2s ease;
 }
 
 button:disabled {
-  opacity: 0.55;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 #generateBtn {
-  width: 100%;
-  margin-top: 16px;
   background: var(--utama);
-  color: var(--putih);
+  color: white;
+  min-width: 180px;
 }
 
 #generateBtn:hover:not(:disabled) {
   background: #1d4ed8;
 }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
+/* Area Hasil */
+h2 {
+  font-size: 28px;
+  margin: 28px 0 12px;
+  font-weight: bold;
 }
 
-.actions button {
+pre {
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 16px;
+  line-height: 1.7;
+  background: #f8fafc;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  min-height: 80px;
+  color: #222;
+}
+
+/* Baris Tombol Aksi */
+.baris-tombol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.baris-tombol button {
   flex: 1;
-  min-width: 120px;
+  min-width: 130px;
+  text-align: center;
 }
 
 #playBtn { background: var(--sukses); color: white; }
 #stopBtn { background: var(--peringatan); color: white; }
-#downloadBtn { background: #8b5cf6; color: white; }
+#downloadBtn { background: var(--info); color: white; }
 #saveNoteBtn { background: var(--utama); color: white; }
 
 /* Riwayat */
-.riwayat pre {
-  max-height: 260px;
+h3 {
+  font-size: 24px;
+  margin: 28px 0 12px;
+  font-weight: bold;
 }
 
-/* Responsif untuk layar kecil */
+/* Responsif HP */
 @media (max-width: 600px) {
-  .hero h1 { font-size: 24px; }
-  .actions { flex-direction: column; }
-  .actions button { width: 100%; }
-  .card { padding: 18px; }
+  .baris-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  p.deskripsi { font-size: 18px; }
 }
