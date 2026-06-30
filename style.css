@@ -1,116 +1,197 @@
-* { box-sizing: border-box; }
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musik MIDI AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #080812, #15152a);
-      color: #ffffff;
-    }
+<body>
+  <main class="app">
+    <header class="hero">
+      <h1>Musik MIDI AI</h1>
+      <p>Buat lirik, nada, preview, dan file MIDI sederhana secara offline.</p>
+    </header>
 
-    .app {
-      width: 100%;
-      max-width: 520px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+    <section class="card">
+      <label for="theme">Tema Lagu</label>
+      <textarea id="theme" rows="3" placeholder="Contoh: cinta yang hilang, semangat pagi, rindu kampung halaman, hari ini aku jatuh cinta..."></textarea>
 
-    .hero {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+      <label for="genre">Genre</label>
+      <select id="genre">
+        <option value="slow-edm">Slow EDM</option>
+        <option value="pop-edm">Pop EDM</option>
+        <option value="koplo-edm">Koplo EDM</option>
+        <option value="rock-edm">Rock EDM</option>
+        <option value="pop">Pop</option>
+        <option value="dangdut">Dangdut</option>
+        <option value="romantis">Romantis/Ballad</option>
+      </select>
 
-    .hero h1 {
-      margin: 0;
-      font-size: 32px;
-      background: linear-gradient(90deg, #8b5cf6, #22d3ee);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+      <label for="mood">Suasana / Mood</label>
+      <input type="text" id="mood" placeholder="Contoh: romantis, semangat, melankolis, ceria..." />
 
-    .hero p {
-      color: #b8b8d6;
-      font-size: 14px;
-    }
+      <button id="generateBtn">Generate Lagu & Nada</button>
+    </section>
 
-    .card {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
-    }
+    <section class="card output">
+      <h2>Lirik + Nada</h2>
+      <pre id="lyricsOutput">Belum ada hasil. Klik Generate untuk memulai.</pre>
+    </section>
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #d8d8ff;
-      font-weight: bold;
-    }
+    <section class="card output">
+      <h2>Urutan Nada</h2>
+      <pre id="notesOutput">Belum ada nada.</pre>
+    </section>
 
-    textarea,
-    select {
-      width: 100%;
-      border: none;
-      outline: none;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 16px;
-      background: #101024;
-      color: #ffffff;
-      font-size: 15px;
-    }
+    <section class="actions">
+      <button id="playBtn" disabled>▶️ Putar Preview</button>
+      <button id="stopBtn" disabled>⏹️ Hentikan</button>
+      <button id="downloadBtn" disabled>💾 Unduh File MIDI</button>
+      <button id="saveNoteBtn" disabled>⭐ Simpan ke Riwayat</button>
+    </section>
 
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
+    <section class="card output riwayat">
+      <h3>Riwayat & Hasil Terbaik</h3>
+      <pre id="riwayatOutput">Riwayat lagu akan muncul di sini.</pre>
+    </section>
+  </main>
 
-    button {
-      width: 100%;
-      border: none;
-      border-radius: 14px;
-      padding: 15px;
-      background: linear-gradient(90deg, #7c3aed, #06b6d4);
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+  <!-- Pustaka Inti Offline -->
+  <script src="js/libs/tone.js"></script>
+  <script src="js/libs/smplr.js"></script>
+  <script src="js/libs/midi-writer-js.js"></script>
 
-    button:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.1);
-    }
+  <!-- Sistem Utama - Urutan Pemuatan WAJIB -->
+  <script src="js/genre.js"></script>
+  <script src="js/soundfont-loader-offline.js"></script>
+  <script src="js/ai-engine-offline.js"></script>
+  <script src="js/lirik.js"></script>
+  <script src="js/riwayat.js"></script>
 
-    button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      transform: none;
-    }
+  <!-- File Utama Logika Halaman -->
+  <script src="js/app.js"></script>
 
-    .output h2 {
-      margin-top: 0;
-      font-size: 18px;
-    }
+  <script>
+    // Inisialisasi koneksi antar elemen halaman dengan sistem
+    document.addEventListener('DOMContentLoaded', () => {
+      const themeEl = document.getElementById('theme');
+      const genreEl = document.getElementById('genre');
+      const moodEl = document.getElementById('mood');
+      const generateBtn = document.getElementById('generateBtn');
+      const lyricsOutput = document.getElementById('lyricsOutput');
+      const notesOutput = document.getElementById('notesOutput');
+      const playBtn = document.getElementById('playBtn');
+      const stopBtn = document.getElementById('stopBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+      const saveNoteBtn = document.getElementById('saveNoteBtn');
+      const riwayatOutput = document.getElementById('riwayatOutput');
 
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      color: #e7e7ff;
-      font-size: 14px;
-      line-height: 1.6;
-    }
+      let laguSaatIni = null;
 
-    .actions {
-      display: grid;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
+      // Tombol Generate
+      generateBtn.addEventListener('click', async () => {
+        const tema = themeEl.value.trim();
+        const genre = genreEl.value;
+        const mood = moodEl.value.trim() || 'netral';
 
-    @media (max-width: 480px) {
-      .app { padding: 14px; }
-      .hero h1 { font-size: 28px; }
-      button { font-size: 15px; }
-    }
+        if (!tema) {
+          lyricsOutput.textContent = "⚠️ Mohon isi tema lagu terlebih dahulu!";
+          return;
+        }
+
+        lyricsOutput.textContent = "🔄 Sedang membuat lirik dan melodi...";
+        notesOutput.textContent = "";
+        playBtn.disabled = true;
+        downloadBtn.disabled = true;
+        saveNoteBtn.disabled = true;
+
+        try {
+          // Panggil mesin pembuat lagu
+          laguSaatIni = AIEngine.buatLagu(tema, genre, mood);
+
+          // Tampilkan hasil
+          lyricsOutput.textContent = laguSaatIni.lirik;
+          notesOutput.textContent = `BPM: ${laguSaatIni.bpm}\n\nUrutan Nada:\n${laguSaatIni.melodi.join('  |  ')}`;
+
+          // Aktifkan tombol
+          playBtn.disabled = false;
+          stopBtn.disabled = false;
+          downloadBtn.disabled = false;
+          saveNoteBtn.disabled = false;
+
+        } catch (err) {
+          lyricsOutput.textContent = `❌ Terjadi kesalahan:\n${err.message}`;
+          console.error(err);
+        }
+      });
+
+      // Tombol Putar
+      playBtn.addEventListener('click', () => {
+        if (laguSaatIni) AppPembuatLagu.putarMelodi();
+      });
+
+      // Tombol Hentikan
+      stopBtn.addEventListener('click', () => {
+        AppPembuatLagu.hentikanPemutaran();
+      });
+
+      // Tombol Unduh MIDI
+      downloadBtn.addEventListener('click', () => {
+        if (!laguSaatIni || !window.MidiWriter) return;
+
+        try {
+          const track = new MidiWriter.Track();
+          track.setTempo(laguSaatIni.bpm);
+          track.addEvent(new MidiWriter.ProgramChangeEvent({instrument: 0}));
+
+          laguSaatIni.melodi.forEach(nada => {
+            track.addNote(new MidiWriter.NoteEvent({
+              pitch: nada,
+              duration: '16',
+              velocity: 80
+            }));
+          });
+
+          const write = new MidiWriter.Writer([track]);
+          const link = document.createElement('a');
+          link.href = 'data:audio/midi;base64,' + write.dataUri().split(',')[1];
+          link.download = `lagu_${laguSaatIni.tema.replace(/\s+/g, '_')}_${Date.now()}.mid`;
+          link.click();
+
+        } catch (err) {
+          alert("❌ Gagal membuat file MIDI: " + err.message);
+        }
+      });
+
+      // Tombol Simpan ke Riwayat
+      saveNoteBtn.addEventListener('click', () => {
+        if (!laguSaatIni) return;
+
+        const catatan = prompt("Tambahkan catatan (opsional):", "Melodi bagus");
+        if (catatan === null) return;
+
+        const tanyaTerbaik = confirm("Tandai sebagai hasil PALING BAGUS & bahan pembelajaran AI?");
+        const hasil = AppPembuatLagu.simpanLagu(catatan, tanyaTerbaik);
+
+        if (hasil) {
+          alert("✅ Berhasil disimpan ke riwayat!");
+          // Tampilkan riwayat terbaru
+          const daftar = RiwayatLagu.tampilkanRingkasan();
+          riwayatOutput.textContent = daftar;
+        }
+      });
+
+      // Tampilkan riwayat saat halaman pertama kali dimuat
+      setTimeout(() => {
+        if (window.RiwayatLagu) {
+          riwayatOutput.textContent = RiwayatLagu.tampilkanRingkasan() || "Belum ada riwayat tersimpan.";
+        }
+      }, 800);
+
+    });
+  </script>
+
+</body>
+</html>
